@@ -88,19 +88,16 @@ def post_delete_view(request, pk):
 @login_required
 def post_change_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    if post.author != request.user:
-        return redirect('index')
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=request.user)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
             return redirect(reverse('profile'))
         else:
-            return render(request, 'change_post.html', {'form': form})
+            return render(request, 'change_post.html', {'form': form, 'post': post})
     else:
-        form = PostForm(instance=request.user)
-
-    return render(request, 'change_post.html', {'form': form})
+        form = PostForm(instance=post)
+    return render(request, 'change_post.html', {'form': form, 'post': post})
 
 
 @login_required

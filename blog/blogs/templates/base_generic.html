@@ -16,15 +16,18 @@
                 </a>
             </div>
              <nav class="header-nav">
-                <a href="{% url 'index' %}">ГЛАВНАЯ</a>
+                 <a href="{% url 'user-change' %}">редактировать профиль</a>
+                    <a href="{% url 'user-delete' %}">удалить профиль</a>
+
+                <a href="{% url 'index' %}">главная</a>
                 {% if user.is_authenticated %}
-                <p class="like-link">ПОЛЬЗОВАТЕЛЬ: {{ user.get_username }}</p>
-                <a href="{% url 'profile' %}">ПРОФИЛЬ</a>
-                <a href="{% url 'logout' %}">ВЫХОД</a>
-                <a href="{% url 'create' %}">СОЗДАТЬ ПОСТ</a>
+                <p class="like-link">пользователь: {{ user.get_username }}</p>
+                <a href="{% url 'profile' %}">профиль</a>
+                <a href="{% url 'logout' %}">выйти из профиля</a>
+                <a href="{% url 'create' %}">создать пост</a>
                 {% else %}
-                    <a href="{% url 'login' %}">ВОЙТИ</a>
-                    <a href="{% url 'register' %}">РЕГИСТРАЦИЯ</a>
+                    <a href="{% url 'login' %}">войти</a>
+                    <a href="{% url 'register' %}">регистрация</a>
                 {% endif %}
             </nav>
         </div>

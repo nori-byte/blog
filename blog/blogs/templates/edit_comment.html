@@ -4,7 +4,7 @@
 
 {% if user.is_authenticated %}
 <section class="title">
-            <h1>Изменение комментария</h1>
+            <h1>Изменение поста</h1>
         </section>
         <section class="articles-wrapper">
             <div class="articles">
@@ -13,10 +13,10 @@
                         <div class="article-inner">
                             <div class="article-text">
                                 <div class="calculator-form another">
-                                    <form action="" method="post" enctype="multipart/form-data" class="calculator-form-inner">
+                                    <form action="" method="post" enctype="multipart/form-data" >
                                     {% csrf_token %}
                                     {{ form.as_p }}
-                                    <input type="submit" value="ОТПРАВИТЬ" class="button"/>
+                                    <input type="submit" value="СОХРАНИТЬ" class="button"/>
                                 </form>
                                 </div>
 
