@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Блог{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <span>БлогПлатформа</span>
+                </a>
+            </div>
+             <nav class="header-nav">
+                <a href="{% url 'index' %}">ГЛАВНАЯ</a>
+                {% if user.is_authenticated %}
+                <p class="like-link">ПОЛЬЗОВАТЕЛЬ: {{ user.get_username }}</p>
+                <a href="{% url 'profile' %}">ПРОФИЛЬ</a>
+                <a href="{% url 'logout' %}">ВЫХОД</a>
+                <a href="{% url 'create' %}">СОЗДАТЬ ПОСТ</a>
+                {% else %}
+                    <a href="{% url 'login' %}">ВОЙТИ</a>
+                    <a href="{% url 'register' %}">РЕГИСТРАЦИЯ</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <nav class="nav">
+                    <a href="{% url 'index' %}">Главная</a>
+                {% if user.is_authenticated %}
+                <p class="like-link-f">Пользователь: {{ user.get_username }}</p>
+                <a href="{% url 'profile' %}">Профиль</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Войти</a>
+                    <a href="{% url 'register' %}">Регистрация</a>
+                {% endif %}
+            </nav>
+        <div class="container">
+            <p>&copy; 2025 БлогПлатформа. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<section class="title">
+            <h1>Все посты</h1>
+        </section>
+        <section class="articles-wrapper">
+            <div class="articles">
+                <div class="four-articles">
+                    {% if posts %}
+                    {% for post in posts %}
+                    <article>
+                        <div class="article-inner">
+                            <div class="article-text">
+                                <h3>Автор поста: {{ post.author }}</h3>
+                                <p>{{ post.post_text }}</p>
+                                <p>Дата создания: {{ post.pub_date }}</p>
+                                 {% if request.user.is_authenticated %} {# Только для авторизованных пользователей #}
+            <p class="lele">
+                <a href="{% url 'toggle_like' pk=post.pk %}">
+                    {% if request.user in post.likes.all %}
+                        Уже не нравится
+                    {% else %}
+                        Нравится
+                    {% endif %}
+                    {% if request.user == post.author %}
+                        <a href="{% url 'edit-post' pk=post.pk %}" class="change"><b>Изменить пост?</b></a>
+                        <a href="{% url 'delete-post' pk=post.pk %}" class="change"><b>Удалить пост?</b></a>
+                    {% endif %}
+                </a>
+                <span>Отметок "нравится": {{ post.likes_count }}</span>
+            </p>
+        {% else %}
+            <p>Отметок "нравится": {{ post.likes_count }}</p>
+        {% endif %}
+
+        <p>Комментарии: {{ post.comment_count }}</p>
+
+                            </div>
+                            <div class="article-buttons">
+                                {% for comment in post.comment_set.all %}
+        <p class="comment">{{ comment.commenter.username }}: {{ comment.comment_text }}</p>
+                                 {% if request.user == comment.commenter %}
+                            <a href="{% url 'edit-comment' pk=comment.pk %}" class="change"><b>Изменить комментарий?</b></a>
+                            <form action="{% url 'delete-comment' pk=comment.pk %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Удалить комментарий" class="button"/>
+                            </form>
+                        {% endif %}
+    {% endfor %}
+                                <a href="{% url 'add-comment' pk=post.pk %}" class="button">ПРОКОММЕНТИРОВАТЬ</a>
+                            </div>
+                            <div class="line"></div>
+                            {% endfor %}
+                            {% if page.paginator.num_pages > 1 %}
+    <div class="pagination">
+        <div class="pagination-list">
+            {% if page.has_previous %}
+                <div class="pagination-item">
+                    <a href="?page={{ page.previous_page_number }}" class="pagination-link">&laquo;</a>
+                </div>
+            {% endif %}
+
+
+            {% for num in page.paginator.page_range %}
+                <div class="pagination-item {% if num == page.number %}active{% endif %}">
+                    {% if num == page.number %}
+                        <span class="pagination-link">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="pagination-link">{{ num }}</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            {% if page.has_next %}
+                <div class="pagination-item">
+                    <a href="?page={{ page.next_page_number }}" class="pagination-link">&raquo;</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+                            {% endif %}
+                            {% else %}
+                             <p>Нет постов </p>
+                            {% endif %}
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+{% endblock %}

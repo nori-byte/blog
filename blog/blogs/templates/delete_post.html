@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Удалить пост{% endblock %}
+
+{% block content %}
+<div class="delete-confirmation">
+    <h1>Удалить пост</h1>
+    
+    <div class="post-preview">
+        <p>{{ post.content|truncatechars:200 }}</p>
+        <p class="post-info">Создан: {{ post.created_at|date:"d.m.Y H:i" }}</p>
+        <p class="post-info">Лайков: {{ post.likes_count }}, Комментариев: {{ post.comments_count }}</p>
+    </div>
+    
+    <p class="warning">Вы уверены, что хотите удалить этот пост? Это действие нельзя отменить.</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">Да, удалить</button>
+            <a href="/post/{{ post.id }}/" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
